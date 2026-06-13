@@ -22,6 +22,9 @@ import {
   animateButtonInteraction,
   setActiveNav,
   togglePage,
+  closeSheets,
+  bindSheetBackdrop,
+  bindSheetGestures,
   showProgress,
   hideProgress,
   bindNewsContinue,
@@ -45,6 +48,9 @@ function initialize() {
   renderPalace(state);
 
   bindNavigation();
+  bindSheetBackdrop(() => closeSheets());
+  bindSheetGestures();
+  bindSheetCloseButtons();
   bindModalControls(() => populateEventModal(state.currentEvent), () => {});
   bindNewsContinue(handleContinueNews);
   bindDecisionControls(handleDecisionChoice);

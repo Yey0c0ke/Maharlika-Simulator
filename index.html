@@ -16,7 +16,7 @@
       <div class="hero-content">
         <div class="hero-top">
           <div class="hero-avatar ring-glow" aria-hidden="true">
-            <span class="avatar-icon">👑</span>
+            <img class="hero-avatar-img" src="assets/lapulapu.png" alt="King Lapu Lapu">
           </div>
           <div class="hero-text">
             <p class="eyebrow">Supreme Monarch</p>
@@ -104,7 +104,7 @@
         </div>
       </section>
 
-      <section class="page page-news" data-page="news">
+      <section class="page sheet-page page-news" data-page="news">
         <div class="page-header">
           <div>
             <p class="section-label">Maharlika Times</p>
@@ -115,7 +115,10 @@
 
         <article class="news-card glass card-load">
           <div class="news-card-header">
-            <p class="eyebrow" id="news-date">June 13, 2026</p>
+            <div>
+              <p class="eyebrow" id="news-date">June 13, 2026</p>
+              <p class="eyebrow" id="news-day">Day 1</p>
+            </div>
             <strong id="news-headline">Palace dispatch pending</strong>
           </div>
           <p class="news-snippet" id="news-summary">Awaiting the next update from the palace.</p>
@@ -133,7 +136,7 @@
         </div>
       </section>
 
-      <section class="page page-events" data-page="events">
+      <section class="page sheet-page page-events" data-page="events">
         <div class="page-header">
           <div>
             <p class="section-label">Event Chronicle</p>
@@ -165,7 +168,7 @@
         </div>
       </section>
 
-      <section class="page page-projects" data-page="projects">
+      <section class="page sheet-page page-projects" data-page="projects">
         <div class="page-header">
           <div>
             <p class="section-label">Royal Projects</p>
@@ -226,7 +229,7 @@
         </div>
       </section>
 
-      <section class="page page-laws" data-page="laws">
+      <section class="page sheet-page page-laws" data-page="laws">
         <div class="page-header">
           <div>
             <p class="section-label">Royal Decrees</p>
@@ -260,10 +263,22 @@
             <div class="law-status">Available</div>
             <button class="law-cta secondary-button">Enact</button>
           </article>
+          <article id="law-environmental-law" class="law-card glass card-load">
+            <p class="section-label">Environmental Law</p>
+            <p>Protect nature while supporting industry.</p>
+            <div class="law-status">Available</div>
+            <button class="law-cta secondary-button">Enact</button>
+          </article>
+          <article id="law-industrialization" class="law-card glass card-load">
+            <p class="section-label">Industrialization</p>
+            <p>Boost manufacturing and export capacity.</p>
+            <div class="law-status">Available</div>
+            <button class="law-cta secondary-button">Enact</button>
+          </article>
         </div>
       </section>
 
-      <section class="page page-technology" data-page="technology">
+      <section class="page sheet-page page-technology" data-page="technology">
         <div class="page-header">
           <div>
             <p class="section-label">Council of Innovation</p>
@@ -300,7 +315,7 @@
         </div>
       </section>
 
-      <section class="page page-diplomacy" data-page="diplomacy">
+      <section class="page sheet-page page-diplomacy" data-page="diplomacy">
         <div class="page-header">
           <div>
             <p class="section-label">Foreign Relations</p>
@@ -332,10 +347,54 @@
               <button class="diplomacy-action secondary-button" data-action="alliance">Alliance</button>
             </div>
           </article>
+          <article id="country-japan" class="diplomacy-card glass card-load">
+            <p class="section-label">Japan</p>
+            <div class="diplomacy-status">Ally</div>
+            <span class="diplomacy-relation">68%</span>
+            <span class="diplomacy-trade">Trade +9</span>
+            <div class="diplomacy-actions">
+              <button class="diplomacy-action secondary-button" data-action="trade">Trade</button>
+              <button class="diplomacy-action secondary-button" data-action="aid">Aid</button>
+              <button class="diplomacy-action secondary-button" data-action="alliance">Alliance</button>
+            </div>
+          </article>
+          <article id="country-skorea" class="diplomacy-card glass card-load">
+            <p class="section-label">South Korea</p>
+            <div class="diplomacy-status">Partner</div>
+            <span class="diplomacy-relation">70%</span>
+            <span class="diplomacy-trade">Trade +8</span>
+            <div class="diplomacy-actions">
+              <button class="diplomacy-action secondary-button" data-action="trade">Trade</button>
+              <button class="diplomacy-action secondary-button" data-action="aid">Aid</button>
+              <button class="diplomacy-action secondary-button" data-action="alliance">Alliance</button>
+            </div>
+          </article>
+          <article id="country-asean" class="diplomacy-card glass card-load">
+            <p class="section-label">ASEAN</p>
+            <div class="diplomacy-status">Friendly</div>
+            <span class="diplomacy-relation">80%</span>
+            <span class="diplomacy-trade">Trade +14</span>
+            <div class="diplomacy-actions">
+              <button class="diplomacy-action secondary-button" data-action="trade">Trade</button>
+              <button class="diplomacy-action secondary-button" data-action="aid">Aid</button>
+              <button class="diplomacy-action secondary-button" data-action="alliance">Alliance</button>
+            </div>
+          </article>
+          <article id="country-eu" class="diplomacy-card glass card-load">
+            <p class="section-label">EU</p>
+            <div class="diplomacy-status">Observer</div>
+            <span class="diplomacy-relation">60%</span>
+            <span class="diplomacy-trade">Trade +7</span>
+            <div class="diplomacy-actions">
+              <button class="diplomacy-action secondary-button" data-action="trade">Trade</button>
+              <button class="diplomacy-action secondary-button" data-action="aid">Aid</button>
+              <button class="diplomacy-action secondary-button" data-action="alliance">Alliance</button>
+            </div>
+          </article>
         </div>
       </section>
 
-      <section class="page page-military" data-page="military">
+      <section class="page sheet-page page-military" data-page="military">
         <div class="page-header">
           <div>
             <p class="section-label">Royal Forces</p>
@@ -372,7 +431,7 @@
         </div>
       </section>
 
-      <section class="page page-palace" data-page="palace">
+      <section class="page sheet-page page-palace" data-page="palace">
         <div class="page-header">
           <div>
             <p class="section-label">Maharlika Palace</p>
@@ -395,7 +454,7 @@
         </article>
       </section>
 
-      <section class="page page-governors" data-page="governors">
+      <section class="page sheet-page page-governors" data-page="governors">
         <div class="page-header">
           <div>
             <p class="section-label">Council of Governors</p>
@@ -408,7 +467,7 @@
           <article class="governor-card glass card-load" data-region="Luzon">
             <div class="governor-header">
               <div>
-                <h3>Andres</h3>
+                <h3 id="luzon-governor">Andres</h3>
                 <p>Luzon • Coastal Circle</p>
               </div>
               <span class="relationship-pill" id="gov-luzon-relationship">Trusted</span>
@@ -420,17 +479,19 @@
               <span>Loyalty <strong id="gov-luzon-loyalty">82</strong></span>
               <span>Corruption <strong id="gov-luzon-corruption">12</strong></span>
               <span>Ambition <strong id="gov-luzon-ambition">58</strong></span>
+              <span>Status <strong id="luzon-status">Stable</strong></span>
             </div>
             <div class="governor-actions">
               <button class="governor-action secondary-button" data-region="Luzon" data-action="reward">Reward</button>
               <button class="governor-action secondary-button" data-region="Luzon" data-action="investigate">Investigate</button>
-              <button class="governor-action secondary-button" data-region="Luzon" data-action="replace">Replace</button>
+              <button class="governor-action secondary-button" data-region="Luzon" data-action="promote">Promote</button>
+              <button class="governor-action secondary-button" data-region="Luzon" data-action="arrest">Arrest</button>
             </div>
           </article>
           <article class="governor-card glass card-load" data-region="Visayas">
             <div class="governor-header">
               <div>
-                <h3>Mara</h3>
+                <h3 id="visayas-governor">Mara</h3>
                 <p>Visayas • Trade Alliance</p>
               </div>
               <span class="relationship-pill" id="gov-visayas-relationship">Reliable</span>
@@ -442,17 +503,19 @@
               <span>Loyalty <strong id="gov-visayas-loyalty">80</strong></span>
               <span>Corruption <strong id="gov-visayas-corruption">14</strong></span>
               <span>Ambition <strong id="gov-visayas-ambition">64</strong></span>
+              <span>Status <strong id="visayas-status">Stable</strong></span>
             </div>
             <div class="governor-actions">
               <button class="governor-action secondary-button" data-region="Visayas" data-action="reward">Reward</button>
               <button class="governor-action secondary-button" data-region="Visayas" data-action="investigate">Investigate</button>
-              <button class="governor-action secondary-button" data-region="Visayas" data-action="replace">Replace</button>
+              <button class="governor-action secondary-button" data-region="Visayas" data-action="promote">Promote</button>
+              <button class="governor-action secondary-button" data-region="Visayas" data-action="arrest">Arrest</button>
             </div>
           </article>
           <article class="governor-card glass card-load" data-region="Mindanao">
             <div class="governor-header">
               <div>
-                <h3>Rey</h3>
+                <h3 id="mindanao-governor">Rey</h3>
                 <p>Mindanao • Frontier Guard</p>
               </div>
               <span class="relationship-pill" id="gov-mindanao-relationship">Steady</span>
@@ -464,17 +527,19 @@
               <span>Loyalty <strong id="gov-mindanao-loyalty">78</strong></span>
               <span>Corruption <strong id="gov-mindanao-corruption">18</strong></span>
               <span>Ambition <strong id="gov-mindanao-ambition">69</strong></span>
+              <span>Status <strong id="mindanao-status">Stable</strong></span>
             </div>
             <div class="governor-actions">
               <button class="governor-action secondary-button" data-region="Mindanao" data-action="reward">Reward</button>
               <button class="governor-action secondary-button" data-region="Mindanao" data-action="investigate">Investigate</button>
-              <button class="governor-action secondary-button" data-region="Mindanao" data-action="replace">Replace</button>
+              <button class="governor-action secondary-button" data-region="Mindanao" data-action="promote">Promote</button>
+              <button class="governor-action secondary-button" data-region="Mindanao" data-action="arrest">Arrest</button>
             </div>
           </article>
         </div>
       </section>
 
-      <section class="page page-settings" data-page="settings">
+      <section class="page sheet-page page-settings" data-page="settings">
         <div class="page-header">
           <div>
             <p class="section-label">Royal Settings</p>
@@ -561,6 +626,7 @@
 
     <button id="next-day-button" class="action-button gold-button">Next Day</button>
 
+    <div id="sheet-backdrop" class="sheet-backdrop hidden"></div>
     <div id="progress-overlay" class="progress-overlay hidden" aria-live="polite">
       <div class="progress-shell glass">
         <p id="progress-step">Preparing royal decree…</p>

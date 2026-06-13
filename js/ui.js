@@ -38,9 +38,83 @@ function easeOutCubic(t) {
 
 export function togglePage(targetPage) {
   const pages = document.querySelectorAll('.page');
+  const backdrop = document.querySelector('#sheet-backdrop');
+
   pages.forEach(page => {
-    const isActive = page.dataset.page === targetPage;
-    page.classList.toggle('active', isActive);
+    if (page.dataset.page === 'dashboard') {
+      page.classList.add('active');
+      return;
+    }
+    if (targetPage === 'dashboard') {
+      page.classList.remove('active');
+    } else {
+      page.classList.toggle('active', page.dataset.page === targetPage);
+    }
+  });
+
+  if (backdrop) {
+    backdrop.classList.toggle('hidden', targetPage === 'dashboard');
+  }
+}
+
+export function closeSheets() {
+  togglePage('dashboard');
+  setActiveNav('dashboard');
+}
+
+export function bindSheetBackdrop(onClose) {
+  const backdrop = document.querySelector('#sheet-backdrop');
+  if (!backdrop) return;
+  backdrop.addEventListener('click', () => {
+    onClose();
+    closeSheets();
+  });
+}
+
+export function bindSheetGestures() {
+  let startY = 0;
+  let activeSheet = null;
+
+  document.addEventListener('touchstart', event => {
+    activeSheet = event.target.closest('.sheet-page.active');
+    if (!activeSheet) return;
+    startY = event.touches[0].clientY;
+  });
+
+  document.addEventListener('touchmove', event => {
+    if (!activeSheet) return;
+    const currentY = event.touches[0].clientY;
+    const delta = currentY - startY;
+    if (delta > 0) {
+      activeSheet.style.transform = `translateY(${delta}px)`;
+    }
+  });
+
+  document.addEventListener('touchend', event => {
+    if (!activeSheet) return;
+    const endY = event.changedTouches[0].clientY;
+    const delta = endY - startY;
+    activeSheet.style.transform = '';
+    if (delta > 110) {
+      closeSheets();
+    }
+    activeSheet = null;
+  });
+}
+
+export function bindSheetCloseButtons() {
+  document.querySelectorAll('.sheet-page').forEach(page => {
+    let closeButton = page.querySelector('.sheet-close');
+    if (!closeButton) {
+      const header = page.querySelector('.page-header');
+      if (!header) return;
+      closeButton = document.createElement('button');
+      closeButton.type = 'button';
+      closeButton.className = 'sheet-close';
+      closeButton.textContent = '✕';
+      header.appendChild(closeButton);
+      closeButton.addEventListener('click', closeSheets);
+    }
   });
 }
 
@@ -128,6 +202,26 @@ export function bindModalControls(onOpen, onClose) {
 
 export function bindResetButton(onReset) {
   document.querySelector('#reset-button')?.addEventListener('click', onReset);
+}
+
+export function bindNewsContinue(onContinue) {
+  DOM.newsContinueButton?.addEventListener('click', onContinue);
+}
+
+export function bindDecisionControls(onChoice) {
+  DOM.decisionYes?.addEventListener('click', () => onChoice('yes'));
+  DOM.decisionNo?.addEventListener('click', () => onChoice('no'));
+  DOM.decisionClose?.addEventListener('click', () => DOM.decisionModal?.classList.add('hidden'));
+  DOM.decisionModal?.addEventListener('click', event => {
+    if (event.target === event.currentTarget) {
+      DOM.decisionModal?.classList.add('hidden');
+    }
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !DOM.decisionModal?.classList.contains('hidden')) {
+      DOM.decisionModal?.classList.add('hidden');
+    }
+  });
 }
 
 export function animateButtonInteraction(button) {

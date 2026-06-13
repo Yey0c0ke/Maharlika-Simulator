@@ -33,7 +33,7 @@ html, body {
 }
 
 body {
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 button {
@@ -121,15 +121,19 @@ img {
 .hero-avatar {
   width: 92px;
   height: 92px;
-  border-radius: 28px;
+  border-radius: 50%;
   border: 1px solid rgba(255,255,255,0.16);
   overflow: hidden;
   flex-shrink: 0;
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08), 0 18px 38px rgba(0, 0, 0, 0.18);
-  background-image: radial-gradient(circle at top left, rgba(242,201,76,0.32), transparent 38%), url('../assets/maharlika.png');
-  background-size: cover;
-  background-position: center;
   position: relative;
+}
+
+.hero-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .hero-avatar::before {
@@ -394,10 +398,143 @@ h1 {
 }
 
 .region-grid span,
-.governor-grid-details span {
+.governor-grid-details span,
+.project-info span,
+.diplomacy-relation,
+.diplomacy-trade,
+.palace-metrics span {
   display: block;
   font-size: 0.88rem;
   color: rgba(255,255,255,0.72);
+}
+
+.news-card,
+.news-archive,
+.project-card,
+.law-card,
+.tech-card,
+.diplomacy-card,
+.palace-card {
+  display: grid;
+  gap: 16px;
+}
+
+.news-card {
+  padding: 22px;
+}
+
+.news-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.news-card-header .eyebrow {
+  margin-bottom: 8px;
+}
+
+.news-snippet {
+  color: rgba(255,255,255,0.8);
+  line-height: 1.6;
+}
+
+.news-archive {
+  padding: 22px;
+}
+
+.news-item {
+  padding: 16px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 22px;
+}
+
+.project-grid,
+.law-grid,
+.tech-grid,
+.diplomacy-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.project-grid,
+.law-grid,
+.tech-grid,
+.diplomacy-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.project-card,
+.law-card,
+.tech-card,
+.diplomacy-card,
+.palace-card {
+  padding: 22px;
+}
+
+.project-info,
+.palace-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.project-progress {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+
+.project-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, rgba(242,201,76,1), rgba(255,255,255,0.8));
+  transition: width 0.35s ease;
+}
+
+.law-status,
+.tech-status,
+.diplomacy-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.86);
+  font-weight: 700;
+}
+
+.diplomacy-actions,
+.military-actions,
+.governor-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.diplomacy-actions,
+.military-actions {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.military-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 22px;
+}
+
+.military-grid > div {
+  padding: 16px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 24px;
+}
+
+.palace-card {
+  padding: 28px;
 }
 
 .region-grid strong,
@@ -713,7 +850,7 @@ h1 {
   bottom: 90px;
   transform: translateX(-50%);
   width: min(420px, calc(100% - 48px));
-  z-index: 10;
+  z-index: 60;
 }
 
 .modal {
@@ -831,7 +968,165 @@ h1 {
   transform: translateY(0);
 }
 
-@media (min-width: 520px) {
+.sheet-page {
+  position: fixed;
+  inset: auto 12px 12px;
+  width: calc(100% - 24px);
+  max-height: calc(100vh - 140px);
+  border-radius: 30px;
+  background: rgba(12, 21, 44, 0.96);
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 38px 100px rgba(0,0,0,0.32);
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+  overflow: hidden;
+  z-index: 80;
+  opacity: 0;
+}
+
+.sheet-page.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.sheet-page .page-header {
+  position: relative;
+  padding: 24px 22px 8px;
+}
+
+.sheet-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.08);
+  color: var(--white);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.sheet-close:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.14);
+}
+
+.sheet-page .news-card,
+.sheet-page .event-panel,
+.sheet-page .project-grid,
+.sheet-page .law-grid,
+.sheet-page .tech-grid,
+.sheet-page .diplomacy-grid,
+.sheet-page .military-grid,
+.sheet-page .palace-card,
+.sheet-page .settings-panel {
+  max-height: calc(100vh - 220px);
+  overflow: auto;
+  padding: 0 22px 22px;
+}
+
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(18px);
+  z-index: 70;
+}
+
+.sheet-backdrop.hidden {
+  display: none;
+}
+
+#next-day-button {
+  position: fixed;
+  left: 50%;
+  bottom: 90px;
+  transform: translateX(-50%);
+  width: min(420px, calc(100% - 48px));
+  z-index: 70;
+}
+
+.bottom-nav {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  width: calc(100% - 36px);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px;
+  border-radius: 32px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(12, 22, 44, 0.96);
+  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.24);
+  z-index: 65;
+}
+
+.modal {
+  z-index: 90;
+}
+
+@media (max-width: 640px) {
+  .sheet-page {
+    inset: auto 10px 10px;
+    width: calc(100% - 20px);
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-card,
+  .glass,
+  .bottom-nav {
+    border-radius: 24px;
+  }
+
+  .hero-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cards-grid,
+  .secondary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .region-card,
+  .governor-card {
+    grid-template-columns: 1fr;
+  }
+
+  .bottom-nav {
+    width: calc(100% - 24px);
+  }
+
+  .hero-card {
+    min-height: auto;
+    padding: 22px;
+  }
+
+  .hero-avatar {
+    width: 78px;
+    height: 78px;
+  }
+
+  .stat-card {
+    min-height: 120px;
+    padding: 18px;
+  }
+
+  .sheet-page {
+    max-height: calc(100vh - 120px);
+  }
+}
   .app-shell {
     padding: 30px 24px 110px;
   }
