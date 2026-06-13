@@ -62,6 +62,54 @@ export function updateGovernors(state) {
   });
 }
 
+export function performGovernorAction(state, region, action) {
+  const regionKey = region;
+  const record = state.governors[regionKey];
+  if (!record) return state.governors;
+
+  const updatedGovernor = { ...record };
+  switch (action) {
+    case 'reward':
+      updatedGovernor.approval = clampValue(updatedGovernor.approval + 4, 0, 100);
+      updatedGovernor.loyalty = clampValue(updatedGovernor.loyalty + 5, 0, 100);
+      updatedGovernor.corruption = clampValue(updatedGovernor.corruption - 2, 0, 100);
+      updatedGovernor.popularity = clampValue((updatedGovernor.popularity || 0) + 3, 0, 100);
+      updatedGovernor.relationship = 'Grateful';
+      break;
+    case 'investigate':
+      updatedGovernor.corruption = clampValue(updatedGovernor.corruption - 3, 0, 100);
+      updatedGovernor.loyalty = clampValue(updatedGovernor.loyalty - 1, 0, 100);
+      updatedGovernor.approval = clampValue(updatedGovernor.approval + 1, 0, 100);
+      updatedGovernor.relationship = 'Under scrutiny';
+      break;
+    case 'promote':
+      updatedGovernor.popularity = clampValue((updatedGovernor.popularity || 0) + 4, 0, 100);
+      updatedGovernor.approval = clampValue(updatedGovernor.approval + 3, 0, 100);
+      updatedGovernor.loyalty = clampValue(updatedGovernor.loyalty + 2, 0, 100);
+      updatedGovernor.relationship = 'Empowered';
+      break;
+    case 'remove':
+    case 'replace':
+      updatedGovernor.approval = clampValue(updatedGovernor.approval - 5, 0, 100);
+      updatedGovernor.loyalty = clampValue(updatedGovernor.loyalty - 8, 0, 100);
+      updatedGovernor.relationship = 'Distrustful';
+      break;
+    case 'arrest':
+      updatedGovernor.approval = clampValue(updatedGovernor.approval - 3, 0, 100);
+      updatedGovernor.corruption = clampValue(updatedGovernor.corruption - 5, 0, 100);
+      updatedGovernor.relationship = 'Feared';
+      break;
+    default:
+      break;
+  }
+
+  updatedGovernor.status = pickGovernorStatus(updatedGovernor.approval);
+  return {
+    ...state.governors,
+    [regionKey]: updatedGovernor
+  };
+}
+
 export function refreshPoliticalScene(state, event) {
   const regions = Object.keys(state.governors);
   return regions.reduce((result, name) => {

@@ -61,7 +61,12 @@ const DOM = {
   progressFill: document.querySelector('#progress-fill'),
   modal: document.querySelector('#event-modal'),
   viewEventButton: document.querySelector('#view-event-button'),
-  modalClose: document.querySelector('#modal-close')
+  modalClose: document.querySelector('#modal-close'),
+  newsContinueButton: document.querySelector('#continue-news-button'),
+  decisionModal: document.querySelector('#decision-modal'),
+  decisionYes: document.querySelector('#decision-yes'),
+  decisionNo: document.querySelector('#decision-no'),
+  decisionClose: document.querySelector('#decision-close')
 };
 
 export function animateEntrance() {

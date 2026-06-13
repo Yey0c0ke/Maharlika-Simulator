@@ -184,6 +184,41 @@ const EVENT_TEMPLATES = [
     impact: { treasury: 14, approval: 5, economy: 4, reserve: 6 },
     category: 'positive',
     importance: 'common'
+  },
+  {
+    title: 'Typhoon Warning',
+    summary: 'A raging storm threatens coastal harvests and trade.',
+    impact: { food: -7, economy: -5, infrastructure: -4, population: -20000 },
+    category: 'danger',
+    importance: 'rare'
+  },
+  {
+    title: 'Volcanic Ashfall',
+    summary: 'A distant eruption forces supply reroutes and raises costs.',
+    impact: { economy: -4, health: -3, approval: -2, infrastructure: -3 },
+    category: 'warning',
+    importance: 'rare'
+  },
+  {
+    title: 'Earthquake Tremor',
+    summary: 'Shaking ground damages facilities and alarms citizens.',
+    impact: { security: -4, infrastructure: -5, approval: -3, expenses: 6 },
+    category: 'danger',
+    importance: 'rare'
+  },
+  {
+    title: 'Political Scandal',
+    summary: 'A governor’s secret deals weaken public trust.',
+    impact: { approval: -6, corruption: 5, loyalty: -4, security: -2 },
+    category: 'danger',
+    importance: 'rare'
+  },
+  {
+    title: 'Economic Crisis',
+    summary: 'Markets wobble under pressure from external debt.',
+    impact: { treasury: -10, gdp: -6, inflation: 2, approval: -4 },
+    category: 'danger',
+    importance: 'rare'
   }
 ];
 
@@ -208,6 +243,181 @@ export function createEvent(state) {
     ...event,
     realizedAt: new Date().toISOString()
   };
+}
+
+const DECISION_TEMPLATES = [
+  {
+    title: 'Increase tax collection?',
+    prompt: 'The finance council asks to raise tax rates to close the budget gap.',
+    yes: {
+      summary: 'Treasury gains at the cost of public mood.',
+      impact: { treasury: 40, approval: -4, income: 8 }
+    },
+    no: {
+      summary: 'Citizens celebrate, but revenue is limited.',
+      impact: { approval: 2, treasury: -15, economy: -2 }
+    }
+  },
+  {
+    title: 'Fund military exercises?',
+    prompt: 'The generals request extra funding for readiness drills.',
+    yes: {
+      summary: 'Army readiness improves while costs rise.',
+      impact: { military: 6, security: 4, expenses: 5, approval: 1 }
+    },
+    no: {
+      summary: 'The army stays lean but morale dips.',
+      impact: { approval: -2, security: -3 }
+    }
+  },
+  {
+    title: 'Approve a public health drive?',
+    prompt: 'The royal physicians ask to expand regional clinics.',
+    yes: {
+      summary: 'Healthcare gets stronger and citizens feel safer.',
+      impact: { healthcare: 7, approval: 3, expenses: 4 }
+    },
+    no: {
+      summary: 'The clinics remain as they are, and unrest grows.',
+      impact: { healthcare: -3, approval: -2 }
+    }
+  },
+  {
+    title: 'Launch an education fund?',
+    prompt: 'Scholars recommend investing in training tomorrow’s talent.',
+    yes: {
+      summary: 'Learning improves, fueling future growth.',
+      impact: { education: 6, research: 4, approval: 2, treasury: -12 }
+    },
+    no: {
+      summary: 'The scholars are disappointed, but the budget holds.',
+      impact: { approval: -1, technology: 1 }
+    }
+  }
+];
+
+export function createDecision(state, event) {
+  const decision = DECISION_TEMPLATES[Math.floor(Math.random() * DECISION_TEMPLATES.length)];
+  return {
+    ...decision,
+    id: `decision-${Date.now()}`,
+    relatedEvent: event.title
+  };
+}
+
+export function generateNewsStory(state, event) {
+  return {
+    id: `news-${Date.now()}`,
+    day: state.day,
+    date: state.date,
+    headline: `${event.title} in ${event.region}`,
+    summary: `${event.summary} The palace prepares a response on the next decision.`,
+    eventCategory: event.category,
+    eventRegion: event.region
+  };
+}
+
+export function applyDecision(state, decision, choice) {
+  const updated = { ...state };
+  if (!decision || !decision[choice]) {
+    return updated;
+  }
+
+  const result = decision[choice];
+  Object.entries(result.impact).forEach(([key, delta]) => {
+    if (Number.isFinite(updated[key])) {
+      updated[key] = clampValue(updated[key] + delta, 0, maxForStat(key));
+    }
+  });
+
+  updated.decisionHistory = [
+    {
+      id: decision.id,
+      title: decision.title,
+      choice,
+      result: result.summary,
+      date: updated.date
+    },
+    ...(updated.decisionHistory || [])
+  ].slice(0, 8);
+
+  updated.status = deriveStatus(updated);
+  return updated;
+}
+
+export function populateNewsPage(state) {
+  const dateNode = document.querySelector('#news-date');
+  const dayNode = document.querySelector('#news-day');
+  const headlineNode = document.querySelector('#news-headline');
+  const summaryNode = document.querySelector('#news-summary');
+
+  if (dateNode) dateNode.textContent = state.date;
+  if (dayNode) dayNode.textContent = `Day ${state.day}`;
+  if (headlineNode) headlineNode.textContent = state.todayNews?.headline || state.currentEvent?.title || 'Royal dispatch pending';
+  if (summaryNode) summaryNode.textContent = state.todayNews?.summary || state.currentEvent?.summary || 'Awaiting the next update from the palace.';
+}
+
+export function renderNewsArchive(state) {
+  const container = document.querySelector('#news-archive');
+  if (!container) return;
+  container.innerHTML = (state.newsArchive || []).slice(0, 8).map(entry => `
+    <article class="news-item">
+      <div>
+        <p class="eyebrow">${entry.date}</p>
+        <h4>${entry.headline}</h4>
+      </div>
+      <p>${entry.summary}</p>
+    </article>
+  `).join('') || '<p class="muted-text">No prior dispatches available yet.</p>';
+}
+
+export function populateDecisionModal(decision) {
+  const title = document.querySelector('#decision-title');
+  const prompt = document.querySelector('#decision-prompt');
+  const yesImpact = document.querySelector('#decision-impact-yes');
+  const noImpact = document.querySelector('#decision-impact-no');
+
+  if (!decision) return;
+  if (title) title.textContent = decision.title;
+  if (prompt) prompt.textContent = decision.prompt;
+  if (yesImpact) yesImpact.textContent = formatDecisionImpact(decision.yes.impact);
+  if (noImpact) noImpact.textContent = formatDecisionImpact(decision.no.impact);
+}
+
+function formatDecisionImpact(impact) {
+  const labels = {
+    treasury: 'Treasury',
+    approval: 'Approval',
+    economy: 'Economy',
+    security: 'Security',
+    income: 'Income',
+    expenses: 'Expenses',
+    gdp: 'GDP',
+    inflation: 'Inflation',
+    reserve: 'Reserve',
+    debt: 'Debt',
+    taxRate: 'Tax',
+    population: 'Population',
+    food: 'Food',
+    education: 'Education',
+    technology: 'Technology',
+    military: 'Military',
+    infrastructure: 'Infrastructure',
+    tourism: 'Tourism',
+    healthcare: 'Healthcare',
+    employment: 'Employment',
+    energy: 'Energy',
+    research: 'Research'
+  };
+
+  return Object.entries(impact).reduce((acc, [key, value]) => {
+    if (!value) return acc;
+    const symbol = value > 0 ? '+' : '';
+    const suffix = key === 'treasury' ? 'M' : key === 'inflation' || key === 'approval' || key === 'taxRate' ? '%' : '';
+    const label = labels[key] || key.charAt(0).toUpperCase() + key.slice(1);
+    acc.push(`${symbol}${value}${suffix} ${label}`);
+    return acc;
+  }, []).join(' • ');
 }
 
 function maxForStat(key) {
