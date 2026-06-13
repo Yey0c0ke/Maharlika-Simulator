@@ -1,0 +1,21 @@
+{
+  "day": 1,
+  "date": "June 13, 2026",
+  "treasury": 960,
+  "approval": 82,
+  "population": 4225000,
+  "economy": 91,
+  "security": 88,
+  "status": "Peaceful",
+  "governors": {
+    "Luzon": { "name": "Andres", "approval": 88, "status": "Stable" },
+    "Visayas": { "name": "Mara", "approval": 86, "status": "Growing" },
+    "Mindanao": { "name": "Rey", "approval": 84, "status": "Resilient" }
+  },
+  "currentEvent": {
+    "title": "Festival of Lights",
+    "summary": "A ceremonial festival boosts morale and commerce across the kingdom.",
+    "impact": { "treasury": 12, "approval": 3, "economy": 8, "security": 2 },
+    "region": "Maharlika"
+  }
+}

@@ -1,0 +1,70 @@
+:root {
+  --ani-duration: 0.45s;
+  --ani-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulseSoft {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.page-enter {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity var(--ani-duration) var(--ani-ease), transform var(--ani-duration) var(--ani-ease);
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity var(--ani-duration) var(--ani-ease), transform var(--ani-duration) var(--ani-ease);
+}
+
+.fade-in {
+  animation: fadeInUp 0.7s var(--ani-ease) both;
+}
+
+.pop-in {
+  animation: popIn 0.45s var(--ani-ease) both;
+}
+
+.pulse-anim {
+  animation: pulseSoft 2.4s ease-in-out infinite;
+}
+
+button:active,
+.nav-button:active,
+.action-button:active,
+.secondary-button:active {
+  transform: scale(0.98);
+}
